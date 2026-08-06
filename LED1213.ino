@@ -1,9 +1,9 @@
-#define led 13
+#define ledmerah 13
 #define ledHijau 12
 
 void setup() 
 {
-pinMode(led, OUTPUT);
+pinMode(ledmerah, OUTPUT);
 pinMode(ledHijau, OUTPUT);
 
 }
@@ -12,10 +12,10 @@ void loop()
 {
   
 digitalWrite(ledHijau, HIGH);
-digitalWrite(led, LOW);
+digitalWrite(ledmerah, LOW);
 delay(500);
 digitalWrite(ledHijau, LOW);
-digitalWrite(led, HIGH);
+digitalWrite(ledmerah, HIGH);
 delay(500);
 
 }
