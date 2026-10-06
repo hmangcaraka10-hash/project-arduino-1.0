@@ -1,0 +1,64 @@
+# Sistem Monitoring Suhu & Kelembapan (DHT11 + LCD I2C)
+
+Proyek ini adalah sistem pemantau suhu dan kelembapan udara secara *real-time* menggunakan **Sensor DHT11** dan tampilan layar **LCD 16x2 (I2C)** berbasis mikrokontroler Arduino. Data kelembapan akan ditampilkan pada layar LCD, sedangkan data kelembapan dan suhu lengkap akan dikirimkan ke **Serial Monitor**.
+
+---
+
+## 📌 Fitur Utama
+
+* **Pembacaan Suhu & Kelembapan**: Mengukur kelembapan relatif (%) dan suhu (°C) secara berkala tiap 2 detik.
+* **Tampilan LCD I2C**: Menampilkan nilai kelembapan langsung pada layar LCD 16x2.
+* **Output Serial Monitor**: Mengirimkan log pembacaan suhu dan kelembapan ke PC melalui komunikasi Serial.
+* **Pengecekan Error Sensor**: Deteksi otomatis menggunakan fungsi `isnan()` jika sensor gagal memberikan data.
+
+---
+
+## 🛠️ Skema Pin & Komponen
+
+| Komponen | Pin Arduino | Keterangan |
+| :--- | :--- | :--- |
+| **Sensor DHT11** (Data) | `Pin 2` | Signal Pin |
+| **LCD 16x2 I2C** (SDA) | `Pin SDA` (A4 di Uno) | Komunikasi Data I2C |
+| **LCD 16x2 I2C** (SCL) | `Pin SCL` (A5 di Uno) | Clock I2C |
+| **DHT11 & LCD VCC** | `5V` | Daya Komponen |
+| **DHT11 & LCD GND** | `GND` | Ground |
+
+> **Detail Modul I2C:**  
+> Alamat I2C default yang digunakan pada kode ini adalah `0x27`. Jika layar LCD tidak menyala/menampilkan teks, pastikan alamat I2C layar Anda sesuai.
+
+---
+
+## 📚 Library yang Dibutuhkan
+
+Sebelum mengunggah program ke Arduino, pastikan Anda telah menginstal library berikut melalui **Library Manager** di Arduino IDE (`Ctrl + Shift + I`):
+
+1. **DHT sensor library** oleh Adafruit
+2. **Adafruit Unified Sensor** (dependensi untuk DHT)
+3. **LiquidCrystal_I2C** oleh Frank de Brabander
+
+---
+
+## ⚙️ Cara Kerja Sistem
+
+1. **Inisialisasi (`setup`)**:
+   * Komunikasi Serial dibuka pada baud rate `9600`.
+   * Layar LCD diinisialisasi dan backlight diaktifkan.
+   * Sensor DHT11 mulai diaktifkan (`dht.begin()`).
+
+2. **Pembacaan Berulang (`loop`)**:
+   * Setiap **2 detik**, sistem mengambil data kelembapan (`h`) dan suhu (`t`).
+   * Jika pembacaan gagal, pesan *"Failed to read from DHT sensor!"* dikirim ke Serial Monitor.
+   * Jika berhasil:
+     * Nilai kelembapan dikirim dan ditampilkan di baris pertama LCD.
+     * Nilai kelembapan (%) dan suhu (°C) dicetak secara lengkap ke Serial Monitor.
+
+---
+
+## 🚀 Langkah Penggunaan
+
+1. Rangkai komponen sesuai dengan tabel skema pin di atas.
+2. Buka Arduino IDE dan paste kode program.
+3. Pastikan library yang dibutuhkan sudah terinstal.
+4. Hubungkan board Arduino ke PC/Laptop, pilih **Board** dan **Port** yang benar.
+5. Tekan tombol **Upload**.
+6. Buka **Serial Monitor** (`Ctrl + Shift + M`) pada baud rate `9600` untuk melihat data suhu dan kelembapan.
